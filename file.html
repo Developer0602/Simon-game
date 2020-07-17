@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>simon game</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../simon/css1.css">
+<script>
+	var select=["1","2","3","4"];
+	var gamepattern=[];
+	var userpattern=[];
+	var start=false;
+	var level=0;
+	$(document).keypress(function(){
+		if(!start)
+		{
+			$("#tag2").text("Level --> "+level);
+			sequence();
+			start=true;
+		}
+	});
+	$(function()
+	{
+	    $("button").click(function() {
+	        var user = $(this).val();
+		  	userpattern.push(user);
+		 	playsound(user);
+		  	animate(user);
+		  	checkanswer(userpattern.length-1);
+	    	});
+	});
+	function checkanswer(current)
+	{
+		if (gamepattern[current] == userpattern[current]) 
+		{
+      		if (userpattern.length == gamepattern.length)
+      		{
+      			$("#tag1").text("Next-pattern");
+	        	setTimeout(function () {
+	          		sequence();
+	        	}, 2000);
+      		}
+   		} 
+	    else 
+	    {
+	      playsound("wrong");
+	      $("#tag1").text("game-over");
+	      $("body").addClass("game-over");
+	      $("#tag2").text("Game Over, Press Any Key to Restart");
+
+	      setTimeout(function () {
+	      	$("body").removeClass("game-over");
+	        $("#tag1").text("");
+	      }, 500);
+
+	      startOver();
+	    }
+	}    
+	
+
+	function sequence()
+	{
+		userpattern=[];
+		level++;
+		$("#tag1").text("");
+		var random=Math.floor(Math.random()*4);
+		$("#tag2").text("Level --> "+level);
+		gamepattern.push(random);
+		animate(random);
+			
+	}
+	function animate(x)
+	{
+		$("#"+x).animate({height: "300px",width: "650px"},1000);
+		playsound(x);
+		setTimeout(function () {
+		    $("#"+x).animate({height: "250px",width: "600px"},1000);
+		  }, 1000);
+	}
+	function playsound(name)
+	{
+		var myAudio = new Audio("../simon/sound/"+name+".mp3");
+		myAudio.play();
+	}
+	function startOver() {
+  		level = 0;
+  		gamepattern = [];
+  		userpattern=[];
+  		start = false;
+	}
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+		<p class="text-center" id="tag1"></p>
+		<p class="text-center" id="tag2">Press any key to start</p>
+		<div class="row">
+			<div class="col-lg-6">
+				<button class="btn btn-primary extra " id="0" value="0"> BLUE</button>
+			</div>
+			<div class="col-lg-6">
+				<button class="btn btn-danger extra" id="1" value="1"> RED</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<button class="btn btn-success extra" id="2" value="2"> GREEN</button>
+			</div>
+			<div class="col-lg-6">
+				<button class="btn btn-warning extra" id="3" value="3"> ORANGE</button>
+			</div>
+		</div>	
+	</div>
+	
+</body>
+</html>

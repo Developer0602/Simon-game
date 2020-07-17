@@ -1,0 +1,20 @@
+body{
+	background-color: #00004d;
+	box-sizing: border-box;
+}
+.extra{
+	margin-top: 50px;
+	margin-left:90px;
+	height: 250px;
+	width: 600px;
+	font-size: 80px;
+}
+p{
+	font-size: 90px;
+	color: white;
+}
+.game-over {
+  background-color: red;
+  opacity: 0.8;
+}
+
